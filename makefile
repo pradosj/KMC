@@ -1,9 +1,10 @@
-all: kmc kmc_dump kmc_tools py_kmc_api
+all: kmc kmc_dump kmc_tools kmc_walk py_kmc_api
 
 KMC_BIN_DIR = bin
 KMC_MAIN_DIR = kmer_counter
 KMC_API_DIR = kmc_api
 KMC_DUMP_DIR = kmc_dump
+KMC_WALK_DIR = kmc_walk
 KMC_TOOLS_DIR = kmc_tools
 PY_KMC_API_DIR = py_kmc_api
 
@@ -43,6 +44,10 @@ $(KMC_MAIN_DIR)/libs/libbz2.a
 KMC_DUMP_OBJS = \
 $(KMC_DUMP_DIR)/nc_utils.o \
 $(KMC_DUMP_DIR)/kmc_dump.o
+
+KMC_WALK_OBJS = \
+$(KMC_WALK_DIR)/kmc_walk.o
+
 
 KMC_API_OBJS = \
 $(KMC_API_DIR)/mmer.o \
@@ -90,6 +95,11 @@ kmc: $(KMC_OBJS) $(RADULS_OBJS)
 kmc_dump: $(KMC_DUMP_OBJS) $(KMC_API_OBJS)
 	-mkdir -p $(KMC_BIN_DIR)
 	$(CC) $(CLINK) -o $(KMC_BIN_DIR)/$@ $^
+
+kmc_walk: $(KMC_WALK_OBJS) $(KMC_API_OBJS)
+	-mkdir -p $(KMC_BIN_DIR)
+	$(CC) $(CLINK) -o $(KMC_BIN_DIR)/$@ $^
+
 
 kmc_tools: $(KMC_TOOLS_OBJS) $(KMC_API_OBJS)
 	-mkdir -p $(KMC_BIN_DIR)
